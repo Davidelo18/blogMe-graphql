@@ -44,6 +44,7 @@ module.exports = {
                 token
             }
         },
+
         async register (parent, { registerInput: { username, email, password, confirmPassword } }) {
 
             // walidacja inputów
