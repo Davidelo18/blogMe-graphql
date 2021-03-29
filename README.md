@@ -1,11 +1,12 @@
 #  blogMe
 ### Opis
-Aplikacja docelowo ma być portalem społecznościowym. 
+Aplikacja docelowo ma być portalem społecznościowym.
 
 ### Planowana funkcjonalność - podstawa
-- [x] System rejestracji i logowania 
+- [x] System rejestracji i logowania
 - [x] Pobieranie postów innych użytkowników
-- [ ] Tworzenie własnych postów
+- [x] Tworzenie własnych postów
+- [x] Usuwanie postów
 - [ ] Ocenianie postów
 - [ ] Komentowanie postów
 - [ ] Ocenianie komentarzy
@@ -26,8 +27,8 @@ Aplikacja docelowo ma być portalem społecznościowym.
 
 ## Zrobione
 ##### 28 marca 2021r.
-* Przejście z poprzedniej wersji aplikacji postawionej na Firebase. 
+* Przejście z poprzedniej wersji aplikacji postawionej na Firebase.
 * Utworzenie bazy danych w MongoDB.
 * Postawienie serwera
-* Utworzenie mechanizmu pobrania postów 
+* Utworzenie mechanizmu pobrania postów
 * Utworzenie mechanizmu rejestracji i logowania
