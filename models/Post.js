@@ -7,11 +7,16 @@ const postSchema = new Schema({
     comments: [
         {
             body: String,
-            userName: String,
+            username: String,
             publishingTime: String
         }
     ],
-    plusCount: Number,
+    plusses: [
+        {
+            username: String,
+            plussedAt: String
+        }
+    ],
     user: {
         type: Schema.Types.ObjectId,
         ref: 'users'
