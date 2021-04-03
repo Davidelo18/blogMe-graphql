@@ -1,6 +1,6 @@
 const Post = require('../../models/Post');
 const auth = require('../../core/auth');
-const { AuthenticationError } = require('apollo-server');
+const { AuthenticationError, UserInputError } = require('apollo-server');
 
 module.exports = {
     Query: {
@@ -61,6 +61,71 @@ module.exports = {
                 }
             } catch (err) {
                 throw new Error(err);
+            }
+        },
+
+        async createComment(parent, { postId, body }, context) {
+            const { username } = auth(context);
+
+            if (body.trim() === '') {
+                throw new UserInputError('Pusty komentarz', {
+                    errors: {
+                        body: "Komentarz nie może być pusty"
+                    }
+                })
+            }
+
+            const post = await Post.findById(postId);
+            if (post) {
+                post.comments.unshift({
+                    body,
+                    username,
+                    publishingTime: new Date().toISOString()
+                })
+                await post.save();
+                return post;
+            } else {
+                throw new UserInputError('Nie znaleziono takiego posta');
+            }
+        },
+
+        async deleteComment(parent, { postId, commentId }, context) {
+            const { username } = auth(context);
+
+            const post = await Post.findById(postId);
+            if (post) {
+                const commentIndex = post.comments.findIndex(c => c.id === commentId);
+
+                if (post.comments[commentIndex].username === username) {
+                    post.comments.splice(commentIndex, 1);
+                    await post.save();
+                    return post;
+                } else {
+                    throw new AuthenticationError('Dostęp zabroniony');
+                }
+            } else {
+                throw new UserInputError('Nie znaleziono takiego posta');
+            }
+        },
+
+        async plusPost(parent, { postId }, context) {
+            const { username } = auth(context);
+
+            const post = await Post.findById(postId);
+            if (post) {
+                if (post.plusses.find(plus => plus.username === username)) { // cofanie plusa
+                    post.plusses = post.plusses.filter(plus => plus.username !== username);
+                } else { // plusowanie
+                    post.plusses.push({
+                        username,
+                        plussedAt: new Date().toISOString()
+                    })
+                }
+
+                await post.save();
+                return post;
+            } else {
+                throw new UserInputError('Nie znaleziono takiego posta');
             }
         }
     }
