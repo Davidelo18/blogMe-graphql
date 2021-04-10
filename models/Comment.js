@@ -1,14 +1,13 @@
 const { model, Schema } = require('mongoose');
 
 const commentSchema = new Schema({
-    postId: {
+    referTo: {
         type: Schema.Types.ObjectId,
-        ref: 'comments'
+        ref: 'posts'
     },
     body: String,
     username: String,
     publishingTime: String,
-    replies: [ this ],
     plusses: [
         {
             username: String,

@@ -10,6 +10,7 @@ Aplikacja docelowo ma być portalem społecznościowym.
 - [x] Ocenianie postów
 - [x] Komentowanie postów
 - [x] Ocenianie komentarzy
+- [x] Odpowiadanie na komentarze
 - [ ] Konfiguracja profilu - avatar, szczegóły itp.
 - [ ] Warstwa wizualna aplikacji
 - [ ] RWD
@@ -37,3 +38,4 @@ Aplikacja docelowo ma być portalem społecznościowym.
 * Przebudowanie aplikacji z rozdzieleniem komentarzy do osobnej tabeli
 * Dodanie możliwości minusowania postów
 * Dodanie możliwości plusowania i minusowania komentarzy
+* Dadanie mechanizmu odpowiadania na komentarze

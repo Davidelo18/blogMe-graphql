@@ -3,20 +3,25 @@ const Post = require('../../models/Post');
 const auth = require('../../core/auth');
 const { AuthenticationError, UserInputError } = require('apollo-server');
 
-function vote (value) {
-    
-}
-
 module.exports = {
     Query: {
         async getComments(parent, { postId }) {
             try {
-                const comments = await Comment.find({ postId: postId });
+                const comments = await Comment.find({ referTo: postId });
                 return comments;
             } catch (err) {
                 throw new Error(err);
             }
-        }
+        },
+
+        async getReplies(parent, { commentId }) {
+            try {
+                const comments = await Comment.find({ referTo: commentId });
+                return comments;
+            } catch (err) {
+                throw new Error(err);
+            }
+        },
     },
     Mutation: {
         async createComment(parent, { postId, body }, context) {
@@ -30,17 +35,26 @@ module.exports = {
                 })
             }
 
-            const newComment = new Comment({
-                body,
-                postId: postId,
-                user: user.id,
-                username: user.username,
-                publishingTime: new Date().toISOString()
-            });
+            try {
+                const post = await Post.findById(postId);
+                if (post) {
+                    const newComment = new Comment({
+                        body,
+                        referTo: postId,
+                        user: user.id,
+                        username: user.username,
+                        publishingTime: new Date().toISOString()
+                    });
 
-            const comment = await newComment.save();
+                    const comment = await newComment.save();
 
-            return comment;
+                    return comment;
+                } else {
+                    throw new UserInputError('Nie znaleziono takiego posta');
+                }
+            } catch (err) {
+                throw new Error(err);
+            }
         },
 
         async deleteComment(parent, { commentId }, context) {
@@ -107,6 +121,34 @@ module.exports = {
 
                 await comment.save();
                 return comment;
+            } else {
+                throw new UserInputError('Nie znaleziono takiego komentarza');
+            }
+        },
+
+        async postReplyToComment(parent, { commentId, body }, context) {
+            const user = auth(context);
+
+            if (body.trim() === '') {
+                throw new UserInputError('Pusty komentarz', {
+                    errors: {
+                        body: "Komentarz nie może być pusty"
+                    }
+                })
+            }
+
+            const comment = await Comment.findById(commentId);
+            if (comment) {
+                const newReply = new Comment({
+                    body,
+                    referTo: commentId,
+                    user: user.id,
+                    username: user.username,
+                    publishingTime: new Date().toISOString()
+                });
+
+                const reply = await newReply.save();
+                return reply;
             } else {
                 throw new UserInputError('Nie znaleziono takiego komentarza');
             }

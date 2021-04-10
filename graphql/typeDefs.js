@@ -15,7 +15,6 @@ module.exports = gql`
         body: String!
         username: String!
         publishingTime: String!
-        replies: [Comment]!
         plusses: [Vote]!
         minusses: [Vote]!
         voteCount: Int!
@@ -42,6 +41,7 @@ module.exports = gql`
         getPosts: [Post]
         getOnePost(postId: ID!): Post
         getComments(postId: ID!): [Comment]
+        getReplies(commentId: ID!): [Comment]
     }
     type Mutation {
         register(registerInput: RegisterInput): User!
@@ -50,9 +50,10 @@ module.exports = gql`
         deletePost(postId: ID!): String!
         plusPost(postId: ID!): Post!
         minusPost(postId: ID!): Post!
-        createComment(postId: String!, body: String!): Comment!
+        createComment(postId: ID!, body: String!): Comment!
         deleteComment(commentId: ID!): Comment!
         plusComment(commentId: ID!): Comment!
         minusComment(commentId: ID!): Comment!
+        postReplyToComment(commentId: ID!, body: String!): Comment!
     }
 `
