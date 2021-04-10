@@ -6,18 +6,21 @@ module.exports = gql`
         body: String!
         username: String!
         publishingTime: String!
-        comments: [Comment]!
-        plusses: [Plus]!
-        plusCount: Int!
-        commentCount: Int!
+        plusses: [Vote]!
+        minusses: [Vote]!
+        voteCount: Int!
     }
     type Comment {
         id: ID!
-        publishingTime: String!
-        username: String!
         body: String!
+        username: String!
+        publishingTime: String!
+        replies: [Comment]!
+        plusses: [Vote]!
+        minusses: [Vote]!
+        voteCount: Int!
     }
-    type Plus {
+    type Vote {
         id: ID!
         plussedAt: String!
         username: String!
@@ -38,14 +41,18 @@ module.exports = gql`
     type Query {
         getPosts: [Post]
         getOnePost(postId: ID!): Post
+        getComments(postId: ID!): [Comment]
     }
     type Mutation {
         register(registerInput: RegisterInput): User!
         login(username: String!, password: String!): User!
         createPost(body: String!): Post!
         deletePost(postId: ID!): String!
-        createComment(postId: String!, body: String!): Post!
-        deleteComment(postId: ID!, commentId: ID!): Post!
         plusPost(postId: ID!): Post!
+        minusPost(postId: ID!): Post!
+        createComment(postId: String!, body: String!): Comment!
+        deleteComment(commentId: ID!): Comment!
+        plusComment(commentId: ID!): Comment!
+        minusComment(commentId: ID!): Comment!
     }
 `

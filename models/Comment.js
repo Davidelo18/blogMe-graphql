@@ -1,15 +1,14 @@
 const { model, Schema } = require('mongoose');
 
-const postSchema = new Schema({
+const commentSchema = new Schema({
+    postId: {
+        type: Schema.Types.ObjectId,
+        ref: 'comments'
+    },
     body: String,
     username: String,
     publishingTime: String,
-    comments: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'comments'
-        }
-    ],
+    replies: [ this ],
     plusses: [
         {
             username: String,
@@ -28,4 +27,4 @@ const postSchema = new Schema({
     }
 });
 
-module.exports = model('Post', postSchema);
+module.exports = model('Comment', commentSchema);
