@@ -7,8 +7,8 @@ Aplikacja docelowo ma być portalem społecznościowym.
 - [x] Pobieranie postów innych użytkowników
 - [x] Tworzenie własnych postów
 - [x] Usuwanie postów
-- [ ] Ocenianie postów
-- [ ] Komentowanie postów
+- [x] Plusowanie postów
+- [x] Komentowanie postów
 - [ ] Ocenianie komentarzy
 - [ ] Konfiguracja profilu - avatar, szczegóły itp.
 - [ ] Warstwa wizualna aplikacji
@@ -16,6 +16,7 @@ Aplikacja docelowo ma być portalem społecznościowym.
 
 ### Planowana funkcjonalność - rozbudowa aplikacji
 - [ ] Posty i komentarze wieloliniowe
+- [ ] Możliwość dania minusa postom
 - [ ] Wstawienie obrazu statycznego (jpg, png) lub gifu jako posta lub komentarz
 - [ ] Wstawienie filmu z pliku (mp4, mov) lub np. z YouTube jako post lub komentarz
 - [ ] Lista zablokowanych i obserwowanych użytkowników
