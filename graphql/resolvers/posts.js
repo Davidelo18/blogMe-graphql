@@ -35,6 +35,14 @@ module.exports = {
         async createPost(parent, { body }, context) {
             const user = auth(context);
 
+            if (body.trim() === '') {
+                throw new UserInputError('Pusty post', {
+                    errors: {
+                        body: "Post nie może być pusty"
+                    }
+                });
+            }
+
             const newPost = new Post({
                 body,
                 user: user.id,
