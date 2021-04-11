@@ -1,6 +1,7 @@
 const User = require('../../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const auth = require('../../core/auth');
 const { UserInputError } = require('apollo-server');
 const { SECRET_KEY } = require('../../config');
 const { validateRegisterInput, validateLoginInput } = require('../../core/validators');
@@ -14,6 +15,22 @@ function generateToken(user) {
 }
 
 module.exports = {
+    Query: {
+        async getUserInfo(parent, { username }, context) {
+            const userAuth = auth(context);
+
+            try {
+                const user = await User.findOne({ username });
+                if (user) {
+                    return user;
+                } else {
+                    throw new Error('Nie znaleziono takiego użytkownika');
+                }
+            } catch (err) {
+                throw new Error(err);
+            }
+        }
+    },
     Mutation: {
         async login (parent, { username, password }) {
 

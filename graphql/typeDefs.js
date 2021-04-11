@@ -38,6 +38,7 @@ module.exports = gql`
         confirmPassword: String!
     }
     type Query {
+        getUserInfo(username: String!): User
         getPosts: [Post]
         getOnePost(postId: ID!): Post
         getComments(postId: ID!): [Comment]
