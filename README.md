@@ -7,17 +7,17 @@ Aplikacja docelowo ma być portalem społecznościowym.
 - [x] Pobieranie postów innych użytkowników
 - [x] Tworzenie własnych postów
 - [x] Usuwanie postów
-- [x] Plusowanie postów
+- [x] Ocenianie postów
 - [x] Komentowanie postów
-- [ ] Ocenianie komentarzy
+- [x] Ocenianie komentarzy
+- [x] Odpowiadanie na komentarze
 - [ ] Konfiguracja profilu - avatar, szczegóły itp.
 - [ ] Warstwa wizualna aplikacji
 - [ ] RWD
 
 ### Planowana funkcjonalność - rozbudowa aplikacji
 - [ ] Posty i komentarze wieloliniowe
-- [ ] Możliwość dania minusa postom
-- [ ] Wstawienie obrazu statycznego (jpg, png) lub gifu jako posta lub komentarz
+- [ ] Wstawienie obrazu statycznego (jpg, png) lub gifu jako post lub komentarz
 - [ ] Wstawienie filmu z pliku (mp4, mov) lub np. z YouTube jako post lub komentarz
 - [ ] Lista zablokowanych i obserwowanych użytkowników
 - [ ] Chat - prywatne rozmowy pomiędzy 2 użytkownikami
@@ -33,3 +33,9 @@ Aplikacja docelowo ma być portalem społecznościowym.
 * Postawienie serwera
 * Utworzenie mechanizmu pobrania postów
 * Utworzenie mechanizmu rejestracji i logowania
+
+##### 10 kwietnia 2021r.
+* Przebudowanie aplikacji z rozdzieleniem komentarzy do osobnej tabeli
+* Dodanie możliwości minusowania postów
+* Dodanie możliwości plusowania i minusowania komentarzy
+* Dadanie mechanizmu odpowiadania na komentarze

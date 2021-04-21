@@ -35,6 +35,14 @@ module.exports = {
         async createPost(parent, { body }, context) {
             const user = auth(context);
 
+            if (body.trim() === '') {
+                throw new UserInputError('Pusty post', {
+                    errors: {
+                        body: "Post nie może być pusty"
+                    }
+                });
+            }
+
             const newPost = new Post({
                 body,
                 user: user.id,
@@ -64,24 +72,25 @@ module.exports = {
             }
         },
 
-        async createComment(parent, { postId, body }, context) {
+        async plusPost(parent, { postId }, context) {
             const { username } = auth(context);
-
-            if (body.trim() === '') {
-                throw new UserInputError('Pusty komentarz', {
-                    errors: {
-                        body: "Komentarz nie może być pusty"
-                    }
-                })
-            }
 
             const post = await Post.findById(postId);
             if (post) {
-                post.comments.unshift({
-                    body,
-                    username,
-                    publishingTime: new Date().toISOString()
-                })
+                // sprawdzanie czy użytkownik/czka nie dał/a juz minusa
+                if (post.minusses.find(minus => minus.username === username)) {
+                    post.minusses = post.minusses.filter(minus => minus.username !== username);
+                }
+
+                if (post.plusses.find(plus => plus.username === username)) { // cofanie plusa
+                    post.plusses = post.plusses.filter(plus => plus.username !== username);
+                } else { // plusowanie
+                    post.plusses.push({
+                        username,
+                        plussedAt: new Date().toISOString()
+                    })
+                }
+
                 await post.save();
                 return post;
             } else {
@@ -89,36 +98,22 @@ module.exports = {
             }
         },
 
-        async deleteComment(parent, { postId, commentId }, context) {
+        async minusPost(parent, { postId }, context) {
             const { username } = auth(context);
 
             const post = await Post.findById(postId);
             if (post) {
-                const commentIndex = post.comments.findIndex(c => c.id === commentId);
-
-                if (post.comments[commentIndex].username === username) {
-                    post.comments.splice(commentIndex, 1);
-                    await post.save();
-                    return post;
-                } else {
-                    throw new AuthenticationError('Dostęp zabroniony');
-                }
-            } else {
-                throw new UserInputError('Nie znaleziono takiego posta');
-            }
-        },
-
-        async plusPost(parent, { postId }, context) {
-            const { username } = auth(context);
-
-            const post = await Post.findById(postId);
-            if (post) {
-                if (post.plusses.find(plus => plus.username === username)) { // cofanie plusa
+                // sprawdzanie czy użytkownik/czka nie dał/a juz plusa
+                if (post.plusses.find(plus => plus.username === username)) {
                     post.plusses = post.plusses.filter(plus => plus.username !== username);
+                }
+
+                if (post.minusses.find(minus => minus.username === username)) { // cofanie plusa
+                    post.minusses = post.minusses.filter(minus => minus.username !== username);
                 } else { // plusowanie
-                    post.plusses.push({
+                    post.minusses.push({
                         username,
-                        plussedAt: new Date().toISOString()
+                        minussedAt: new Date().toISOString()
                     })
                 }
 
