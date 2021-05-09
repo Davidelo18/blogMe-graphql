@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/Davidelo18/blogMe-graphql/issues"
   },
-  "homepage": "https://github.com/Davidelo18/blogMe-graphql#readme",
+  "homepage": "https://davidelo18.github.io/blogMe-graphql/",
   "dependencies": {
     "apollo-server": "^2.22.1",
     "bcryptjs": "^2.4.3",
